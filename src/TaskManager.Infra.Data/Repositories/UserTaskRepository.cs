@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TaskManager.Core.Models;
 using TaskManager.Infra.Data.Context;
+using TaskManager.Infra.Data.Interfaces;
 
 namespace TaskManager.Infra.Data.Repositories;
 
-public class UserTaskRepository
+public class UserTaskRepository : IUserTaskRepository
 {
     private readonly TaskManagerContext _context;
 

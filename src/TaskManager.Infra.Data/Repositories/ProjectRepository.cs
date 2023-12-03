@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TaskManager.Core.Models;
 using TaskManager.Infra.Data.Context;
+using TaskManager.Infra.Data.Interfaces;
 
 namespace TaskManager.Infra.Data.Repositories;
 
-public class ProjectRepository
+public class ProjectRepository : IProjectRepository
 {
     private readonly TaskManagerContext _context;
 

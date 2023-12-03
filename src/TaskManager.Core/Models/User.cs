@@ -1,6 +1,4 @@
-﻿
-
-namespace TaskManager.Core.Models;
+﻿namespace TaskManager.Core.Models;
 
 public class User
 {
