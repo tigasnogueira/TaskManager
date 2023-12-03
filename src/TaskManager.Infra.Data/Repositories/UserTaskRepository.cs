@@ -51,6 +51,18 @@ public class UserTaskRepository : IUserTaskRepository
 
     public async Task<UserTask> Add(UserTask userTask)
     {
+        var project = await _context.Projects.Include(p => p.Tarefas).FirstOrDefaultAsync(p => p.Id == userTask.ProjetoId);
+
+        if (project == null)
+        {
+            throw new Exception("Projeto não encontrado");
+        }
+
+        if (project.Tarefas.Count >= 20)
+        {
+            throw new InvalidOperationException("Limite de 20 tarefas por projeto atingido.");
+        }
+
         await _context.Tasks.AddAsync(userTask);
         await _context.SaveChangesAsync();
         return userTask;
@@ -127,4 +139,21 @@ public class UserTaskRepository : IUserTaskRepository
         await _context.SaveChangesAsync();
         return userTask;
     }
+
+    public async Task<IEnumerable<UserTask>> GetTasksFinishedByUser(Guid userId, DateTime dataInicial)
+    {
+        return await _context.Tasks
+            .Include(t => t.Projeto)
+            .Where(t => t.Projeto.UsuarioId == userId && t.DataConclusao >= dataInicial && t.Concluida)
+            .ToListAsync();
+    }
+
+    public async Task<IEnumerable<UserTask>> GetTasksFinishedByProject(Guid projectId, DateTime dataInicial)
+    {
+        return await _context.Tasks
+            .Include(t => t.Projeto)
+            .Where(t => t.ProjetoId == projectId && t.DataConclusao >= dataInicial && t.Concluida)
+            .ToListAsync();
+    }
+
 }

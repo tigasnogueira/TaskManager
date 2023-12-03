@@ -14,4 +14,6 @@ public interface IUserTaskRepository
     Task<UserTask> Add(UserTask userTask);
     Task<UserTask> Update(UserTask userTask);
     Task<UserTask> Remove(UserTask userTask);
+    Task<IEnumerable<UserTask>> GetTasksFinishedByUser(Guid userId, DateTime dataInicial);
+    Task<IEnumerable<UserTask>> GetTasksFinishedByProject(Guid projectId, DateTime dataInicial);
 }

@@ -15,4 +15,5 @@ public interface IProjectRepository
     Task<Project> Add(Project project);
     Task<Project> Update(Project project);
     Task<Project> Remove(Project project);
+    Task<IEnumerable<Project>> GetProjectsFinishedByUser(Guid userId, DateTime dataInicial);
 }

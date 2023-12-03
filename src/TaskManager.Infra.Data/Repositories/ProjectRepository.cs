@@ -83,4 +83,12 @@ public class ProjectRepository : IProjectRepository
         var project = await _context.Projects.Include(p => p.Tarefas).FirstOrDefaultAsync(p => p.Id == id);
         return project != null && project.Tarefas.All(t => t.Concluida);
     }
+
+    public async Task<IEnumerable<Project>> GetProjectsFinishedByUser(Guid userId, DateTime dataInicial)
+    {
+        return await _context.Projects
+            .Include(p => p.Tarefas)
+            .Where(p => p.UsuarioId == userId && p.Tarefas.Any(t => t.DataConclusao >= dataInicial && t.Concluida))
+            .ToListAsync();
+    }
 }
