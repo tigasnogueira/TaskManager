@@ -12,6 +12,7 @@ public class TaskManagerContext : DbContext
     public DbSet<User> Users { get; set; }
     public DbSet<Project> Projects { get; set; }
     public DbSet<UserTask> Tasks { get; set; }
+    public DbSet<UserTaskHistory> TaskHistories { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

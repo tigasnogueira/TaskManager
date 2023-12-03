@@ -35,6 +35,13 @@ public class UserTaskController : Controller
     }
 
     [HttpGet]
+    public async Task<IActionResult> GetUserTaskByProjectName(string projectName)
+    {
+        var userTask = await _userTaskService.GetByProjectName(projectName);
+        return Ok(userTask);
+    }
+
+    [HttpGet]
     public async Task<IActionResult> GetAllUserTasks()
     {
         var userTasks = await _userTaskService.GetAll();

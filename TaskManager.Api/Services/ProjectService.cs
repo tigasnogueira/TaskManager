@@ -33,6 +33,11 @@ public class ProjectService : IProjectService
         return await _projectRepository.GetByUserId(userId);
     }
 
+    public async Task<IEnumerable<Project>> GetByUserName(string userName)
+    {
+        return await _projectRepository.GetByUserName(userName);
+    }
+
     public async Task<IEnumerable<Project>> GetByDescricao(string descricao)
     {
         return await _projectRepository.GetByDescricao(descricao);

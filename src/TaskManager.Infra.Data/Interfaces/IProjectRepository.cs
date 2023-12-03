@@ -9,6 +9,7 @@ public interface IProjectRepository
     Task<Project> GetByName(string name);
     Task<Project> GetByNameAndUserId(string name, Guid userId);
     Task<IEnumerable<Project>> GetByUserId(Guid userId);
+    Task<IEnumerable<Project>> GetByUserName(string userName);
     Task<IEnumerable<Project>> GetByDescricao(string descricao);
     Task<IEnumerable<Project>> GetByTarefa(UserTask tarefa);
     Task<Project> Add(Project project);
