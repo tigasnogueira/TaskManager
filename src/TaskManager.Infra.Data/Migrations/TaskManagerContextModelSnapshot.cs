@@ -158,15 +158,12 @@ namespace TaskManager.Infra.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("NewValue")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("OldValue")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PropertyName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("UserTaskId")

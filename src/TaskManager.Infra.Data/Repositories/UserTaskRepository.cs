@@ -5,51 +5,38 @@ using TaskManager.Infra.Data.Interfaces;
 
 namespace TaskManager.Infra.Data.Repositories;
 
-public class UserTaskRepository : IUserTaskRepository
+public class UserTaskRepository : Repository<UserTask>, IUserTaskRepository
 {
-    private readonly TaskManagerContext _context;
-
-    public UserTaskRepository(TaskManagerContext context)
+    public UserTaskRepository(TaskManagerContext context) : base(context)
     {
-        _context = context;
     }
 
-    public async Task<UserTask> GetById(Guid id)
-    {
-        return await _context.Tasks.FindAsync(id);
-    }
-
-    public async Task<UserTask> GetByName(string name)
+    public async Task<UserTask?> GetByName(string name)
     {
         return await _context.Tasks.FirstOrDefaultAsync(t => t.Nome == name);
     }
 
-    public async Task<UserTask> GetByDescricao(string descricao)
+    public async Task<UserTask?> GetByDescricao(string descricao)
     {
         return await _context.Tasks.FirstOrDefaultAsync(t => t.Descricao == descricao);
     }
 
-    public async Task<IEnumerable<UserTask>> GetByProjectId(Guid projectId)
+    public async Task<IEnumerable<UserTask?>> GetByProjectId(Guid projectId)
     {
         return await _context.Tasks.Where(t => t.ProjetoId == projectId).ToListAsync();
     }
 
-    public async Task<IEnumerable<UserTask>> GetByProjectName(string projectName)
+    public async Task<IEnumerable<UserTask?>> GetByProjectName(string projectName)
     {
-        return await _context.Tasks.Where(t => t.Projeto.Nome == projectName).ToListAsync();
+        return await _context.Tasks.Where(t => t.Projeto != null && t.Projeto.Nome == projectName).ToListAsync();
     }
 
-    public async Task<IEnumerable<UserTask>> GetByProject(Project project)
+    public async Task<IEnumerable<UserTask?>> GetByProject(Project project)
     {
         return await _context.Tasks.Where(t => t.Projeto == project).ToListAsync();
     }
 
-    public async Task<IEnumerable<UserTask>> GetAll()
-    {
-        return await _context.Tasks.ToListAsync();
-    }
-
-    public async Task<UserTask> Add(UserTask userTask)
+    public override async Task<UserTask?> Add(UserTask userTask)
     {
         var project = await _context.Projects.Include(p => p.Tarefas).FirstOrDefaultAsync(p => p.Id == userTask.ProjetoId);
 
@@ -58,7 +45,7 @@ public class UserTaskRepository : IUserTaskRepository
             throw new Exception("Projeto não encontrado");
         }
 
-        if (project.Tarefas.Count >= 20)
+        if (project.Tarefas != null && project.Tarefas.Count >= 20)
         {
             throw new InvalidOperationException("Limite de 20 tarefas por projeto atingido.");
         }
@@ -68,11 +55,16 @@ public class UserTaskRepository : IUserTaskRepository
         return userTask;
     }
 
-    public async Task<UserTask> Update(UserTask userTask)
+    public override async Task<UserTask?> Update(UserTask userTask)
     {
         var existingTask = await _context.Tasks.FindAsync(userTask.Id);
 
         List<UserTaskHistory> changes = new List<UserTaskHistory>();
+
+        if (existingTask == null)
+        {
+            throw new Exception("Tarefa não encontrada");
+        }
 
         if (existingTask.Nome != userTask.Nome)
         {
@@ -133,18 +125,11 @@ public class UserTaskRepository : IUserTaskRepository
         return userTask;
     }
 
-    public async Task<UserTask> Remove(UserTask userTask)
-    {
-        _context.Tasks.Remove(userTask);
-        await _context.SaveChangesAsync();
-        return userTask;
-    }
-
     public async Task<IEnumerable<UserTask>> GetTasksFinishedByUser(Guid userId, DateTime dataInicial)
     {
         return await _context.Tasks
             .Include(t => t.Projeto)
-            .Where(t => t.Projeto.UsuarioId == userId && t.DataConclusao >= dataInicial && t.Concluida)
+            .Where(t => t.Projeto != null && t.Projeto.UsuarioId == userId && t.DataConclusao >= dataInicial && t.Concluida)
             .ToListAsync();
     }
 

@@ -8,16 +8,16 @@ public class UserDto
 
     [Required(ErrorMessage = "O campo {0} é obrigatório.")]
     [StringLength(100, ErrorMessage = "O campo {0} deve ter entre {2} e {1} caracteres.", MinimumLength = 3)]
-    public string Nome { get; set; }
+    public string? Nome { get; set; }
 
     [Required(ErrorMessage = "O campo {0} é obrigatório.")]
     [EmailAddress(ErrorMessage = "O campo {0} está em formato inválido.")]
     [StringLength(100, ErrorMessage = "O campo {0} deve ter entre {2} e {1} caracteres.", MinimumLength = 3)]
-    public string Email { get; set; }
+    public string? Email { get; set; }
 
     [Required(ErrorMessage = "O campo {0} é obrigatório.")]
     [StringLength(100, ErrorMessage = "O campo {0} deve ter entre {2} e {1} caracteres.", MinimumLength = 3)]
-    public string Senha { get; set; }
+    public string? Senha { get; set; }
 
     public DateTime DataCriacao { get; set; }
     
@@ -29,7 +29,5 @@ public class UserDto
     
     public bool Excluido { get; set; }
     
-    public ICollection<ProjectDto> Projetos { get; set; }
-    
-    public ICollection<UserTaskDto> Tarefas { get; set; }
+    public ICollection<ProjectDto>? Projetos { get; set; }
 }

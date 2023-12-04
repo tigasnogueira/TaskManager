@@ -12,7 +12,7 @@ using TaskManager.Infra.Data.Context;
 namespace TaskManager.Infra.Data.Migrations
 {
     [DbContext(typeof(TaskManagerContext))]
-    [Migration("20231204021615_InitialCreate")]
+    [Migration("20231204194058_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -160,15 +160,12 @@ namespace TaskManager.Infra.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("NewValue")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("OldValue")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PropertyName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("UserTaskId")

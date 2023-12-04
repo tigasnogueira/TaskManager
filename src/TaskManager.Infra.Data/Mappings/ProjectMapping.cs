@@ -28,9 +28,5 @@ public class ProjectMapping : IEntityTypeConfiguration<Project>
 
         builder.Property(x => x.Excluido)
             .IsRequired();
-
-        builder.HasMany(x => x.Tarefas)
-            .WithOne(x => x.Projeto)
-            .HasForeignKey(x => x.ProjetoId);
     }
 }
