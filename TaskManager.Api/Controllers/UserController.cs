@@ -22,14 +22,14 @@ public class UserController : Controller
         return Ok(user);
     }
 
-    [HttpGet]
+    [HttpGet("{email}")]
     public async Task<IActionResult> GetUserByEmail(string email)
     {
         var user = await _userService.GetByEmail(email);
         return Ok(user);
     }
 
-    [HttpGet]
+    [HttpGet("by-credentials")]
     public async Task<IActionResult> GetUserByEmailAndPassword(string email, string password)
     {
         var user = await _userService.GetByEmailAndPassword(email, password);

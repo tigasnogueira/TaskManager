@@ -12,7 +12,7 @@ using TaskManager.Infra.Data.Context;
 namespace TaskManager.Infra.Data.Migrations
 {
     [DbContext(typeof(TaskManagerContext))]
-    [Migration("20231204015828_InitialCreate")]
+    [Migration("20231204021615_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -143,14 +143,9 @@ namespace TaskManager.Infra.Data.Migrations
                     b.Property<Guid>("ProjetoId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ProjetoId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Tasks");
                 });
@@ -203,10 +198,6 @@ namespace TaskManager.Infra.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TaskManager.Core.Models.User", null)
-                        .WithMany("Tarefas")
-                        .HasForeignKey("UserId");
-
                     b.Navigation("Projeto");
                 });
 
@@ -218,8 +209,6 @@ namespace TaskManager.Infra.Data.Migrations
             modelBuilder.Entity("TaskManager.Core.Models.User", b =>
                 {
                     b.Navigation("Projetos");
-
-                    b.Navigation("Tarefas");
                 });
 #pragma warning restore 612, 618
         }

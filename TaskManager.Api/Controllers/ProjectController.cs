@@ -22,21 +22,21 @@ public class ProjectController : Controller
         return Ok(project);
     }
 
-    [HttpGet]
+    [HttpGet("{name}")]
     public async Task<IActionResult> GetProjectByName(string name)
     {
         var project = await _projectService.GetByName(name);
         return Ok(project);
     }
 
-    [HttpGet]
+    [HttpGet("{userId}")]
     public async Task<IActionResult> GetProjectByUserId(Guid userId)
     {
         var project = await _projectService.GetByUserId(userId);
         return Ok(project);
     }
 
-    [HttpGet]
+    [HttpGet("{userName}")]
     public async Task<IActionResult> GetProjectByUserName(string userName)
     {
         var project = await _projectService.GetByUserName(userName);

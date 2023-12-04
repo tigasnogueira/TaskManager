@@ -11,5 +11,4 @@ public class User : Entity
     public bool Ativo { get; set; }
     public bool Excluido { get; set; }
     public ICollection<Project> Projetos { get; set; }
-    public ICollection<UserTask> Tarefas { get; set; }
 }

@@ -22,28 +22,28 @@ public class UserTaskController : Controller
         return Ok(userTask);
     }
 
-    [HttpGet]
+    [HttpGet("{name}")]
     public async Task<IActionResult> GetUserTaskByName(string name)
     {
         var userTask = await _userTaskService.GetByName(name);
         return Ok(userTask);
     }
 
-    [HttpGet]
+    [HttpGet("{projectId}")]
     public async Task<IActionResult> GetUserTaskByProjectId(Guid projectId)
     {
         var userTask = await _userTaskService.GetByProjectId(projectId);
         return Ok(userTask);
     }
 
-    [HttpGet]
+    [HttpGet("{projectName}")]
     public async Task<IActionResult> GetUserTaskByProjectName(string projectName)
     {
         var userTask = await _userTaskService.GetByProjectName(projectName);
         return Ok(userTask);
     }
 
-    [HttpGet]
+    [HttpGet("user-tasks/")]
     public async Task<IActionResult> GetAllUserTasks()
     {
         var userTasks = await _userTaskService.GetAll();
