@@ -1,17 +1,17 @@
-﻿using TaskManager.Core.Models;
+﻿using TaskManager.Api.Dtos;
 
 namespace TaskManager.Api.Interfaces;
 
 public interface IUserService
 {
-    Task<User> GetById(Guid id);
-    Task<User> GetByEmail(string email);
-    Task<User> GetByEmailAndPassword(string email, string password);
-    Task<User> GetByName(string name);
-    Task<IEnumerable<User>> GetAll();
-    Task<User> Add(User user);
-    Task<User> Update(User user);
-    Task<User> Remove(User user);
+    Task<UserDto> GetById(Guid id);
+    Task<UserDto> GetByEmail(string email);
+    Task<UserDto> GetByEmailAndPassword(string email, string password);
+    Task<UserDto> GetByName(string name);
+    Task<IEnumerable<UserDto>> GetAll();
+    Task<UserDto> Add(UserDto userDto);
+    Task<UserDto> Update(UserDto userDto);
+    Task<UserDto> Remove(UserDto userDto);
     Task<bool> IsEmailAlreadyInUse(string email);
     Task<bool> IsNameAlreadyInUse(string name);
 }

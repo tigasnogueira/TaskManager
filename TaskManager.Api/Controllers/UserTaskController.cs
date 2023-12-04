@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TaskManager.Api.Dtos;
 using TaskManager.Api.Interfaces;
-using TaskManager.Core.Models;
 
 namespace TaskManager.Api.Controllers;
 
+[ApiController]
+[Route("api/[controller]")]
 public class UserTaskController : Controller
 {
     private readonly IUserTaskService _userTaskService;
@@ -49,14 +51,14 @@ public class UserTaskController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> AddUserTask([FromBody] UserTask userTask)
+    public async Task<IActionResult> AddUserTask([FromBody] UserTaskDto userTask)
     {
         var createdUserTask = await _userTaskService.Add(userTask);
         return CreatedAtAction(nameof(GetUserTaskById), new { id = createdUserTask.Id }, createdUserTask);
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateUserTask(Guid id, [FromBody] UserTask userTask)
+    public async Task<IActionResult> UpdateUserTask(Guid id, [FromBody] UserTaskDto userTask)
     {
         if (id != userTask.Id)
         {

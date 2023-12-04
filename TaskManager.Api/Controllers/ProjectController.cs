@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TaskManager.Api.Dtos;
 using TaskManager.Api.Interfaces;
-using TaskManager.Core.Models;
 
 namespace TaskManager.Api.Controllers;
 
+[ApiController]
+[Route("api/[controller]")]
 public class ProjectController : Controller
 {
     private readonly IProjectService _projectService;
@@ -49,14 +51,14 @@ public class ProjectController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> AddProject([FromBody] Project project)
+    public async Task<IActionResult> AddProject([FromBody] ProjectDto project)
     {
         var createdProject = await _projectService.Add(project);
         return CreatedAtAction(nameof(GetProjectById), new { id = createdProject.Id }, createdProject);
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateProject(Guid id, [FromBody] Project project)
+    public async Task<IActionResult> UpdateProject(Guid id, [FromBody] ProjectDto project)
     {
         if (id != project.Id)
         {

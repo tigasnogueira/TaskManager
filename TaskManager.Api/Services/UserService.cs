@@ -1,4 +1,6 @@
-﻿using TaskManager.Api.Interfaces;
+﻿using AutoMapper;
+using TaskManager.Api.Dtos;
+using TaskManager.Api.Interfaces;
 using TaskManager.Core.Models;
 using TaskManager.Infra.Data.Interfaces;
 
@@ -7,50 +9,68 @@ namespace TaskManager.Api.Services;
 public class UserService : IUserService
 {
     private readonly IUserRepository _userRepository;
+    private readonly IMapper _mapper;
 
-    public UserService(IUserRepository userRepository)
+    public UserService(IUserRepository userRepository, IMapper mapper)
     {
         _userRepository = userRepository;
+        _mapper = mapper;
     }
 
-    public async Task<User> GetById(Guid id)
+    public async Task<UserDto> GetById(Guid id)
     {
-        return await _userRepository.GetById(id);
+        var user = await _userRepository.GetById(id);
+        return _mapper.Map<UserDto>(user);
     }
 
-    public async Task<User> GetByEmail(string email)
+    public async Task<UserDto> GetByEmail(string email)
     {
-        return await _userRepository.GetByEmail(email);
+        var user = await _userRepository.GetByEmail(email);
+        return _mapper.Map<UserDto>(user);
     }
 
-    public async Task<User> GetByEmailAndPassword(string email, string password)
+    public async Task<UserDto> GetByEmailAndPassword(string email, string password)
     {
-        return await _userRepository.GetByEmailAndPassword(email, password);
+        var user = await _userRepository.GetByEmailAndPassword(email, password);
+        return _mapper.Map<UserDto>(user);
     }
 
-    public async Task<User> GetByName(string name)
+    public async Task<UserDto> GetByName(string name)
     {
-        return await _userRepository.GetByName(name);
+        var user = await _userRepository.GetByName(name);
+        return _mapper.Map<UserDto>(user);
     }
 
-    public async Task<IEnumerable<User>> GetAll()
+    public async Task<IEnumerable<UserDto>> GetAll()
     {
-        return await _userRepository.GetAll();
+        var users = await _userRepository.GetAll();
+        return _mapper.Map<IEnumerable<UserDto>>(users);
     }
 
-    public async Task<User> Add(User user)
+    public async Task<UserDto> Add(UserDto userDto)
     {
-        return await _userRepository.Add(user);
+        var user = _mapper.Map<User>(userDto);
+        var resultado = await _userRepository.Add(user);
+        return _mapper.Map<UserDto>(resultado);
     }
 
-    public async Task<User> Update(User user)
+    public async Task<UserDto> Update(UserDto userDto)
     {
-        return await _userRepository.Update(user);
+        var CurrentUser = await _userRepository.GetById(userDto.Id);
+        if (CurrentUser == null)
+        {
+            return null;
+        }
+        var user = _mapper.Map<User>(userDto);
+        var resultado = await _userRepository.Update(user);
+        return _mapper.Map<UserDto>(resultado);
     }
 
-    public async Task<User> Remove(User user)
+    public async Task<UserDto> Remove(UserDto userDto)
     {
-        return await _userRepository.Remove(user);
+        var user = _mapper.Map<User>(userDto);
+        var resultado = await _userRepository.Remove(user);
+        return _mapper.Map<UserDto>(resultado);
     }
 
     public async Task<bool> IsEmailAlreadyInUse(string email)

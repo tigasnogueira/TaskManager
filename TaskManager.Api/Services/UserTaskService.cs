@@ -1,4 +1,6 @@
-﻿using TaskManager.Api.Interfaces;
+﻿using AutoMapper;
+using TaskManager.Api.Dtos;
+using TaskManager.Api.Interfaces;
 using TaskManager.Core.Models;
 using TaskManager.Infra.Data.Interfaces;
 
@@ -7,59 +9,80 @@ namespace TaskManager.Api.Services;
 public class UserTaskService : IUserTaskService
 {
     private readonly IUserTaskRepository _userTaskRepository;
+    private readonly IMapper _mapper;
 
-    public UserTaskService(IUserTaskRepository userTaskRepository)
+    public UserTaskService(IUserTaskRepository userTaskRepository, IMapper mapper)
     {
         _userTaskRepository = userTaskRepository;
+        _mapper = mapper;
     }
 
-    public async Task<UserTask> GetById(Guid id)
+    public async Task<UserTaskDto> GetById(Guid id)
     {
-        return await _userTaskRepository.GetById(id);
+        var userTask = await _userTaskRepository.GetById(id);
+        return _mapper.Map<UserTaskDto>(userTask);
     }
 
-    public async Task<UserTask> GetByName(string name)
+    public async Task<UserTaskDto> GetByName(string name)
     {
-        return await _userTaskRepository.GetByName(name);
+        var userTask = await _userTaskRepository.GetByName(name);
+        return _mapper.Map<UserTaskDto>(userTask);
     }
 
-    public async Task<UserTask> GetByDescricao(string descricao)
+    public async Task<UserTaskDto> GetByDescricao(string descricao)
     {
-        return await _userTaskRepository.GetByDescricao(descricao);
+        var userTask = await _userTaskRepository.GetByDescricao(descricao);
+        return _mapper.Map<UserTaskDto>(userTask);
     }
 
-    public async Task<IEnumerable<UserTask>> GetByProjectId(Guid projectId)
+    public async Task<IEnumerable<UserTaskDto>> GetByProjectId(Guid projectId)
     {
-        return await _userTaskRepository.GetByProjectId(projectId);
+        var userTask = await _userTaskRepository.GetByProjectId(projectId);
+        return _mapper.Map<IEnumerable<UserTaskDto>>(userTask);
     }
 
-    public async Task<IEnumerable<UserTask>> GetByProjectName(string projectName)
+    public async Task<IEnumerable<UserTaskDto>> GetByProjectName(string projectName)
     {
-        return await _userTaskRepository.GetByProjectName(projectName);
+        var userTask = await _userTaskRepository.GetByProjectName(projectName);
+        return _mapper.Map<IEnumerable<UserTaskDto>>(userTask);
     }
 
-    public async Task<IEnumerable<UserTask>> GetByProject(Project project)
+    public async Task<IEnumerable<UserTaskDto>> GetByProject(ProjectDto projectDto)
     {
-        return await _userTaskRepository.GetByProject(project);
+        var project = _mapper.Map<Project>(projectDto);
+        var userTask = _mapper.Map<UserTask>(project);
+        return _mapper.Map<IEnumerable<UserTaskDto>>(userTask);
     }
 
-    public async Task<IEnumerable<UserTask>> GetAll()
+    public async Task<IEnumerable<UserTaskDto>> GetAll()
     {
-        return await _userTaskRepository.GetAll();
+        var userTask = await _userTaskRepository.GetAll();
+        return _mapper.Map<IEnumerable<UserTaskDto>>(userTask);
     }
 
-    public async Task<UserTask> Add(UserTask userTask)
+    public async Task<UserTaskDto> Add(UserTaskDto userTaskDto)
     {
-        return await _userTaskRepository.Add(userTask);
+        var userTask = _mapper.Map<UserTask>(userTaskDto);
+        var resultado = await _userTaskRepository.Add(userTask);
+        return _mapper.Map<UserTaskDto>(resultado);
     }
 
-    public async Task<UserTask> Update(UserTask userTask)
+    public async Task<UserTaskDto> Update(UserTaskDto userTaskDto)
     {
-        return await _userTaskRepository.Update(userTask);
+        var CurrentUserTask = await _userTaskRepository.GetById(userTaskDto.Id);
+        if (CurrentUserTask == null)
+        {
+            return null;
+        }
+        var userTask = _mapper.Map<UserTask>(userTaskDto);
+        var resultado = await _userTaskRepository.Update(userTask);
+        return _mapper.Map<UserTaskDto>(resultado);
     }
 
-    public async Task<UserTask> Remove(UserTask userTask)
+    public async Task<UserTaskDto> Remove(UserTaskDto userTaskDto)
     {
-        return await _userTaskRepository.Remove(userTask);
+        var userTask = _mapper.Map<UserTask>(userTaskDto);
+        var resultado = await _userTaskRepository.Remove(userTask);
+        return _mapper.Map<UserTaskDto>(resultado);
     }
 }

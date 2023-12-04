@@ -1,17 +1,17 @@
-﻿using TaskManager.Core.Models;
+﻿using TaskManager.Api.Dtos;
 
 namespace TaskManager.Api.Interfaces;
 
 public interface IUserTaskService
 {
-    Task<UserTask> GetById(Guid id);
-    Task<UserTask> GetByName(string name);
-    Task<UserTask> GetByDescricao(string descricao);
-    Task<IEnumerable<UserTask>> GetByProjectId(Guid projectId);
-    Task<IEnumerable<UserTask>> GetByProjectName(string projectName);
-    Task<IEnumerable<UserTask>> GetByProject(Project project);
-    Task<IEnumerable<UserTask>> GetAll();
-    Task<UserTask> Add(UserTask userTask);
-    Task<UserTask> Update(UserTask userTask);
-    Task<UserTask> Remove(UserTask userTask);
+    Task<UserTaskDto> GetById(Guid id);
+    Task<UserTaskDto> GetByName(string name);
+    Task<UserTaskDto> GetByDescricao(string descricao);
+    Task<IEnumerable<UserTaskDto>> GetByProjectId(Guid projectId);
+    Task<IEnumerable<UserTaskDto>> GetByProjectName(string projectName);
+    Task<IEnumerable<UserTaskDto>> GetByProject(ProjectDto project);
+    Task<IEnumerable<UserTaskDto>> GetAll();
+    Task<UserTaskDto> Add(UserTaskDto userTask);
+    Task<UserTaskDto> Update(UserTaskDto userTask);
+    Task<UserTaskDto> Remove(UserTaskDto userTask);
 }

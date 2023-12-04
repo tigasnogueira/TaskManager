@@ -155,5 +155,4 @@ public class UserTaskRepository : IUserTaskRepository
             .Where(t => t.ProjetoId == projectId && t.DataConclusao >= dataInicial && t.Concluida)
             .ToListAsync();
     }
-
 }
