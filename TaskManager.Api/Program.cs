@@ -1,5 +1,7 @@
+using Microsoft.EntityFrameworkCore;
 using TaskManager.Api.Interfaces;
 using TaskManager.Api.Services;
+using TaskManager.Infra.Data.Context;
 using TaskManager.Infra.Data.Interfaces;
 using TaskManager.Infra.Data.Repositories;
 
@@ -10,11 +12,24 @@ builder.Services.AddSwaggerGen(c =>
     c.SwaggerDoc("v1", new() { Title = "TaskManager", Version = "v1" });
 });
 
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+builder.Services.AddDbContext<TaskManagerContext>(options =>
+    options.UseSqlServer(connectionString,
+        sqlServerOptionsAction: sqlOptions =>
+        {
+            sqlOptions.EnableRetryOnFailure(
+                maxRetryCount: 5,
+                maxRetryDelay: TimeSpan.FromSeconds(30),
+                errorNumbersToAdd: null);
+        }));
+
+
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddControllers();
 
-//builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();

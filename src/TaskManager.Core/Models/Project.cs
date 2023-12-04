@@ -1,8 +1,7 @@
 ﻿namespace TaskManager.Core.Models;
 
-public class Project
+public class Project : Entity
 {
-    public Guid Id { get; set; }
     public string Nome { get; set; }
     public string Descricao { get; set; }
     public DateTime DataCriacao { get; set; }

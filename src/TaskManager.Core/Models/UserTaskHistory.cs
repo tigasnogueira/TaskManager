@@ -1,10 +1,12 @@
-﻿using TaskManager.Core.Models.Enums;
+﻿namespace TaskManager.Core.Models;
 
-namespace TaskManager.Core.Models;
-
-public class UserTaskHistory
+public class UserTaskHistory : Entity
 {
-    public Guid Id { get; set; }
+
+    public UserTaskHistory()
+    {
+    }
+
     public Guid UserTaskId { get; set; }
     public string PropertyName { get; set; }
     public string OldValue { get; set; }

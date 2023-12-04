@@ -2,9 +2,8 @@
 
 namespace TaskManager.Core.Models;
 
-public class UserTask
+public class UserTask : Entity
 {
-    public Guid Id { get; set; }
     public string Nome { get; set; }
     public string Descricao { get; set; }
     public List<string> Comentarios { get; set; }

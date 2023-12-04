@@ -17,5 +17,6 @@ public class TaskManagerContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(TaskManagerContext).Assembly);
+        modelBuilder.Entity<UserTask>().Ignore(ut => ut.Comentarios);
     }
 }
