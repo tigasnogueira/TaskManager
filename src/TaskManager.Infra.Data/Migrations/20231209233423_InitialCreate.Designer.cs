@@ -12,7 +12,7 @@ using TaskManager.Infra.Data.Context;
 namespace TaskManager.Infra.Data.Migrations
 {
     [DbContext(typeof(TaskManagerContext))]
-    [Migration("20231204194058_InitialCreate")]
+    [Migration("20231209233423_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -1,0 +1,23 @@
+version: '3.8'
+services:
+  api:
+    build: 
+      context: .
+      dockerfile: src/TaskManager.Api/Dockerfile
+    ports:
+      - "8000:80"
+    depends_on:
+      - sqlserver
+  sqlserver:
+    image: "mcr.microsoft.com/mssql/server"
+    environment:
+      SA_PASSWORD: "Taskmanager!123"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    volumes:
+      - sql_data:/var/opt/mssql
+
+volumes:
+  sql_data:
+  
